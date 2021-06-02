@@ -1,0 +1,40 @@
+# serverless.yml
+
+service: serverless-customer-application
+useDotenv: true
+
+org: pseigers
+app: customer-app
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: eu-west-1
+  lambdaHashingVersion: 20201221
+
+functions:
+  app:
+    handler: index.handler
+    events:
+      - http: ANY /
+      - http: 'ANY /{proxy+}'
+#  profilePicture:
+#    handler: profile-picture.handler
+#    events:
+#      - s3:
+#          bucket: pep-serverless-node-customers
+#          event: s3:ObjectPut:*
+#          existing: true
+#          rules:
+#            - prefix: uploads/
+
+#resources: # CloudFormation template syntax from here on.
+#  Resources:
+#    S3Bucket:
+#      Type: 'AWS::S3::Bucket'
+#      DeletionPolicy: Retain
+#      Properties:
+#        BucketName: pep-serverless-node-customers
+plugins:
+  - serverless-offline
